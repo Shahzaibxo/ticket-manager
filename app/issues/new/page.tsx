@@ -17,7 +17,7 @@ const Page = () => {
  
   const {register, control, handleSubmit}=useForm<IssueForm>();
   return (
-    <div className='max-x-xl'>
+    <div className='max-w-xl'>
     {error && <Callout.Root className='mb-4' color='red'>
       <Callout.Text>{error}</Callout.Text>
     </Callout.Root>}

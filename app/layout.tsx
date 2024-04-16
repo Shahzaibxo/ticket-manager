@@ -26,10 +26,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <Theme>
           <Navbar />
-          <main className='px-6'>
+          <main className='mt-6 px-3'>
             {children}
           </main>
-          <ThemePanel/>
+          {/* <ThemePanel/> */}
         </Theme>
       </body>
     </html>
