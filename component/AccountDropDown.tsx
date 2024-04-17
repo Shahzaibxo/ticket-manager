@@ -1,4 +1,4 @@
-import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar, User} from "@nextui-org/react";
+import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User} from "@nextui-org/react";
 import React from 'react'
 
 const AccountDropDown = () => {
@@ -13,8 +13,7 @@ const AccountDropDown = () => {
               src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
             }}
             className="transition-transform"
-            description="@tonyreichert"
-            name="Tony Reichert"
+            name="Tony"
           />
         </DropdownTrigger>
         <DropdownMenu aria-label="User Actions" variant="flat">

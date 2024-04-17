@@ -7,9 +7,10 @@ import Navbar from './Navbar'
 import { Theme, ThemePanel } from '@radix-ui/themes';
 
 
-const inter = Inter({ subsets: ['latin'],
-  variable:"--font-inter",
- })
+const inter = Inter({
+  subsets: ['latin'],
+  variable: "--font-inter",
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -22,6 +23,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
+
     <html lang="en">
       <body className={inter.className}>
         <Theme>
@@ -33,5 +35,6 @@ export default function RootLayout({
         </Theme>
       </body>
     </html>
+
   )
 }
