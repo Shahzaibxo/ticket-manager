@@ -25,4 +25,4 @@ export async function GET(req: NextRequest) {
         console.log(data)
         return NextResponse.json({ Total: count, PaginatedData: data });
     }
-}
+}   

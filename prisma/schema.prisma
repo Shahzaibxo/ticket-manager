@@ -17,10 +17,11 @@ model Issue {
   status      Status   @default(OPEN)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  Image_URL   String
 }
 
 enum Status {
   OPEN
-  IN_PROGRESS
+  PENDING
   CLOSED
 }
