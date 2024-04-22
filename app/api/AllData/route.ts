@@ -6,9 +6,14 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url)
     const searchParams = new URLSearchParams(url.searchParams)
     const page = searchParams.get("page")
-    if (page !== null) {
+    const sort = searchParams.get("sort")
+    console.log(sort)
+    if (page !== null && sort !==null) {
         const Page = parseInt(page, 10)
         const data = await prisma.issue.findMany({
+            orderBy:{
+                createdAt: sort
+            },
             select:{
                 id:true,
                 title:true,

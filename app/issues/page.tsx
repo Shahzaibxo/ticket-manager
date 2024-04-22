@@ -1,21 +1,36 @@
 "use client"
-import { Table, Chip, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, NextUIProvider } from "@nextui-org/react";
+import { Table, SelectItem, Chip, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, NextUIProvider, Select } from "@nextui-org/react";
+
 import { Pagination } from "@nextui-org/react";
-import { Button } from '@radix-ui/themes'
-import Link from 'next/link'
+import { Button } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 import React from 'react'
 import useSWR from 'swr'
 
 
 const fetcher = (...args: any[]) => fetch(args[0], args[1]).then((res) => res.json());
+const options = [
+  {
+    value: "desc",
+    label: "Latest"
+  },
+  {
+    value: "asc",
+    label: "Oldest"
+  }
+]
 
 const Page = () => {
+  const router = useRouter()
   const [currentPage, setCurrentPage] = React.useState(1);
-  const { data } = useSWR(`/api/AllData?page=${currentPage}`, fetcher)
+  const [value, setValue] = React.useState(new Set(["asc"]));
+  const descValue = Array.from(value)[0];
+  console.log(descValue)
+  const { data } = useSWR(`/api/AllData?page=${currentPage}&sort=${descValue}`, fetcher)
   let count: number
   if (data) {
 
-    count=Math.ceil(data.Total/4)
+    count = Math.ceil(data.Total / 4)
   }
 
   const columns = [
@@ -55,7 +70,7 @@ const Page = () => {
         );
       case "status":
         return (
-          <Chip size="sm" color={user.status==="OPEN"?"danger":user.status==="PENDING"?"warning":user.status==="CLOSED"?"success":null} variant="flat">
+          <Chip size="sm" color={user.status === "OPEN" ? "danger" : user.status === "PENDING" ? "warning" : user.status === "CLOSED" ? "success" : null} variant="flat">
             {user.status}
           </Chip>
         );
@@ -95,22 +110,38 @@ const Page = () => {
   }, []);
   return (
     <NextUIProvider>
-      <Link href="/issues/new">
-        <Button>okok</Button>
-      </Link>
+      <div className="flex justify-between items-center mb-4">
+        <Select
+          aria-label="drop down to update status"
+          variant="bordered"
+          selectedKeys={value}
+          className="w-32"
+          onSelectionChange={setValue}
+        >
+          {options.map((sort) => (
+            <SelectItem key={sort.value} value={sort.value}>
+              {sort.label}
+            </SelectItem>
+          ))}
+        </Select>
+        <Button className="inline" onClick={() => { router.push("/issues/new") }}>Create a New Issue</Button>
+      </div>
       {data ?
-        <Table aria-label="Example table with dynamic content" bottomContent={<div className="flex items-center justify-center mt-5">
-
-          <Pagination isCompact showControls loop page={currentPage}
-            onChange={setCurrentPage} total={count} />
-
-        </div>}>
+        <Table aria-label="Example table with dynamic content"
+          onRowAction={(id) => router.push(`/issues/${id}`)}
+          selectionMode="single"
+          bottomContent=
+          {<div className="flex items-center justify-center mt-5">
+            <Pagination isCompact showControls page={currentPage}
+              onChange={setCurrentPage} total={count} />
+          </div>}
+        >
           <TableHeader columns={columns}>
             {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
           </TableHeader>
           <TableBody items={data?.PaginatedData}>
             {(item) => (
-              <TableRow key={item.id}>
+              <TableRow className="cursor-pointer" key={item.id}>
                 {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
               </TableRow>
             )}

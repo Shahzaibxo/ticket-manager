@@ -5,7 +5,7 @@ export async function GET(req: NextRequest) {
 
   const data = await prisma.issue.findMany({
     orderBy: {
-      id: 'desc', // Order by auto-incrementing ID in descending order
+      id: 'desc', 
     },
     take: 4
   });
