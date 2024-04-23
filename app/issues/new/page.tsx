@@ -5,6 +5,7 @@ import { Button, Callout, TextField } from '@radix-ui/themes'
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import axios from 'axios';
+import { UserAuth } from "@/app/context/AuthContext";
 
 const Page = () => {
   const [title, setTitle] = useState('');
@@ -12,7 +13,15 @@ const Page = () => {
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const {user}= UserAuth()
+  if(!user){
+    return(
+      <div className="flex flex-col items-center justify-center h-screen">
+        <img className="w-56 h-auto" src="/login-bro.svg" alt="login" />
+        <div className="text-lg font-semibold">Sign-in to Continue</div>
+      </div>
+    )
+  }
   const onChangeHandle = (e) => {
     setFileInput(e.target.files[0]);
   };
