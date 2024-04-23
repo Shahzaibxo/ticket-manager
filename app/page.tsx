@@ -12,6 +12,8 @@ import {
 } from 'chart.js';
 import { Bar } from "react-chartjs-2"
 import useSWR from 'swr'
+import { useRouter } from "next/navigation";
+
 
 const fetcher = (...args: any[]) => fetch(args[0], args[1]).then((res) => res.json());
 
@@ -27,6 +29,7 @@ interface YourDataItemType {
   status: string;
   title: string;
   updatedAt: string;
+  Image_URL: string;
 }
 ChartJS.register(
   CategoryScale,
@@ -60,6 +63,7 @@ export const options = {
 export default function Home() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const { data } = useSWR(`/api/data`, fetcher)
+  const router=useRouter()
 
   return (
     <>
@@ -77,9 +81,7 @@ export default function Home() {
               <div className="border text-center text-sm p-3 h-auto basis-0 shrink grow border-zinc-400 rounded-xl font-medium">
                 Pending:  <br /> <span className="font-extrabold text-lg">{data?.Pending}</span>
               </div>
-              <div className="border text-center text-sm p-3 h-auto basis-0 shrink grow border-zinc-400 rounded-xl font-medium">
-                Total:  <br /> <span className="font-extrabold text-lg">{data?.Total}</span>
-              </div>
+              
             </div>
             <div className="border border-zinc-400">
               <Bar
@@ -90,8 +92,8 @@ export default function Home() {
                   labels: ["New Issues", "In-progress", "Resolved Issues"],
                   datasets: [
                     {
-                      label: "Count",
-                      data: [2, 4, 8],
+                      label: "Total",
+                      data: [data?.Open, data?.Pending, data?.Closed],
                       backgroundColor: [
                         'rgba(255, 99, 132, 0.4)',
                         'rgba(255, 205, 86,0.4)',
@@ -110,7 +112,7 @@ export default function Home() {
               />
             </div>
           </section>
-          <section style={{ height: "405px" }} className="w-full h-fit border p-3 rounded-2xl border-black">
+          <section className="w-full h-fit border p-3 rounded-2xl border-black">
             <div className="font-semibold text-2xl">
               Latest Issues
             </div>
@@ -118,12 +120,12 @@ export default function Home() {
 
               {
                 data ? (data as YourObjectType).PaginatedData?.map((object) => (
-                  <div key={object.id} className="mt-6  sm:text-base font-medium cursor-pointer">
+                  <div key={object.id} onClick={()=>router.push(`/issues/${object.id}`)} className="mt-6  sm:text-base font-medium cursor-pointer">
                     {object.title} <Chip size="sm" className="ml-2" color={object.status === "OPEN" ? "danger" : object.status === "PENDING" ? "warning" : object.status === "CLOSED" ? "success" : null} variant="flat">
                       {object.status}
                     </Chip> <br />
-                    <span className="text-gray-500 text-sm">{object.description}</span> 
-                    
+                    <span className="text-gray-500 text-sm">{object.description}</span>
+                    {object.Image_URL==="No image given"?null:<div className="text-blue-500 hover:text-black  text-sm ">1 Attachment <span>🔗</span></div>} 
                     <hr className="border border-zinc-300 mt-2" />
                   </div>
                 )) :

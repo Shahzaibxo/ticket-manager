@@ -39,7 +39,8 @@ const Page = () => {
   return (
     <div>
 
-      {error && <Callout.Root className='mb-4' color='red'>
+      {
+      error && <Callout.Root className='mb-4' color='red'>
         <Callout.Icon>
           <MdCancel onClick={() => setError("")} />
         </Callout.Icon>
@@ -48,7 +49,7 @@ const Page = () => {
       }
       <form className='flex flex-wrap sm:flex-nowrap gap-7' onSubmit={handleSubmit} encType="multipart/form-data">
         <div style={{width:"546px"}} className="flex flex-col">
-      <h1 className="text-xl my-2 font-bold dark:text-white">Issue Subject</h1>
+      <h1 className="text-xl mb-2 font-bold dark:text-white">Issue Subject</h1>
 
 
           <TextField.Root placeholder='Title'
@@ -59,11 +60,11 @@ const Page = () => {
           <SimpleMDE placeholder='Description'
             name='description'
             value={description}
-            className=""
+            className="h-fit"
             onChange={(description) => setDescription(description)} />
         </div>
         <div className="w-fit">
-          <h1 className="text-xl font-bold dark:text-white">Attach an image - Optional</h1>
+          <h1 className="text-base font-bold dark:text-white">Attach an image - Optional</h1>
           <input className="mb-2" type="file" onChange={onChangeHandle} accept="image/*" />
           <Button type='submit' disabled={isLoading}>
             {isLoading ? 'Submitting...' : 'Submit'}
