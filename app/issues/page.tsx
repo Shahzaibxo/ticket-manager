@@ -1,6 +1,6 @@
 "use client"
 import { Table, SelectItem, Chip, TableHeader, TableColumn, TableBody, TableRow, TableCell,  NextUIProvider, Select, Selection } from "@nextui-org/react";
-
+import Image from 'next/image';
 import { Pagination } from "@nextui-org/react";
 import { Button } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
@@ -131,7 +131,7 @@ const Page = () => {
       </div>
       {data ? (data?.PaginatedData == null ? 
      ( <div className="text-base text-gray-600 font-semibold flex flex-col justify-center items-center">
-        <img className="w-56 h-auto" src="/2.png" alt="no_image" />
+        <Image  width={250} height={250} src="/2.png" alt="no_image" />
         Create an Ticket to display here
       </div>) :
         <Table aria-label="Example table with dynamic content"

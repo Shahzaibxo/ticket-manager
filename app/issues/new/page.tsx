@@ -8,6 +8,7 @@ import axios from 'axios';
 import { UserAuth } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@nextui-org/react";
+import Image from 'next/image';
 
 const Page = () => {
   const [title, setTitle] = useState('');
@@ -20,7 +21,7 @@ const Page = () => {
   if(!user){
     return(
       <div className="flex flex-col items-center justify-center h-screen">
-        <img className="w-56 h-auto" src="/login-bro.svg" alt="login" />
+        <Image width={254} height={254} src="/login-bro.svg" alt="login" />
         <div className="text-lg font-semibold">Sign-in to Continue</div>
       </div>
     )
