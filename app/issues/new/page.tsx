@@ -7,6 +7,7 @@ import "easymde/dist/easymde.min.css";
 import axios from 'axios';
 import { UserAuth } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { Textarea } from "@nextui-org/react";
 
 const Page = () => {
   const [title, setTitle] = useState('');
@@ -69,10 +70,13 @@ const Page = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)} />
           <h1 className="my-2 text-xl font-bold dark:text-white">Describe Your issue in detail</h1>
-          <SimpleMDE placeholder='Description'
+          <Textarea
+            variant="faded"
+            description="Enter a concise description of your Issue"
             value={description}
-            className="h-fit"
-            onChange={(description) => setDescription(description)} />
+            onValueChange={setDescription}
+          />
+          
         </div>
         <div className="w-fit">
           <h1 className="text-base font-bold dark:text-white">Attach an image - Optional</h1>
