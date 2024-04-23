@@ -39,7 +39,7 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-export const options = {
+const options = {
   scales: {
     x: {
       beginAtZero: true,
@@ -121,7 +121,7 @@ export default function Home() {
               {
                 data ? (data as YourObjectType).PaginatedData?.map((object) => (
                   <div key={object.id} onClick={()=>router.push(`/issues/${object.id}`)} className="mt-6  sm:text-base font-medium cursor-pointer">
-                    {object.title} <Chip size="sm" className="ml-2" color={object.status === "OPEN" ? "danger" : object.status === "PENDING" ? "warning" : object.status === "CLOSED" ? "success" : null} variant="flat">
+                    {object.title} <Chip size="sm" className="ml-2" color={object.status === "OPEN" ? "danger" : object.status === "PENDING" ? "warning" : object.status === "CLOSED" ? "success" : "danger"} variant="flat">
                       {object.status}
                     </Chip> <br />
                     <span className="text-gray-500 text-sm">{object.description}</span>

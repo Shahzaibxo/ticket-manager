@@ -13,7 +13,7 @@ const Page = () => {
   const [fileInput, setFileInput] = useState(null);
   const [description, setDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const {user}= UserAuth()
   const router=useRouter()
   if(!user){
@@ -24,11 +24,11 @@ const Page = () => {
       </div>
     )
   }
-  const onChangeHandle = (e) => {
+  const onChangeHandle = (e:any) => {
     setFileInput(e.target.files[0]);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event:any) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -69,11 +69,10 @@ const Page = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)} />
           <h1 className="my-2 text-xl font-bold dark:text-white">Describe Your issue in detail</h1>
-          <SimpleMDE placeholder='Description'
-            name='description'
+          {/* <SimpleMDE placeholder='Description'
             value={description}
             className="h-fit"
-            onChange={(description) => setDescription(description)} />
+            onChange={(description) => setDescription(description)} /> */}
         </div>
         <div className="w-fit">
           <h1 className="text-base font-bold dark:text-white">Attach an image - Optional</h1>

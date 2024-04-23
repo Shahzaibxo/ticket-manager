@@ -9,7 +9,8 @@ import {
 import { auth } from "../firebase";
 
 interface User {
-  // Define your user interface here based on your user object structure
+  photoURL: string;
+  displayName: string
 }
 
 interface AuthContextType {
@@ -33,7 +34,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser:any) => {
       setUser(currentUser);
     });
     return () => unsubscribe();

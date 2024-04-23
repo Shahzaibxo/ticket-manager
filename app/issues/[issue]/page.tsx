@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { issue: string } }) {
     const [value, setValue] = React.useState("");
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter()
-    const handleSelectionChange = async (e) => {
+    const handleSelectionChange = async (e:any) => {
         setValue(e.target.value);
         setIsLoading(true)
         try {
@@ -55,16 +55,15 @@ export default function Page({ params }: { params: { issue: string } }) {
     const date = new Date(data?.Data.createdAt);
 
 
-    const dataops = {
+   
+    const currentDate = new Date();
+    const formatted = date.toLocaleDateString(undefined, {
         weekday: 'long',
         day: 'numeric',
         month: 'long',
         hour: 'numeric',
         minute: 'numeric'
-    };
-
-    const currentDate = new Date();
-    const formatted = date.toLocaleDateString(undefined, dataops);
+    });
     let formattedDate
 
     if (
@@ -89,7 +88,7 @@ export default function Page({ params }: { params: { issue: string } }) {
                                 Issue: {data?.Data.title}
                             </h1>
                             <div className='flex gap-4 mt-3'>
-                                <Chip variant='flat' size='sm' color={data?.Data.status === "OPEN" ? "danger" : data?.Data.status === "PENDING" ? "warning" : data?.Data.status === "CLOSED" ? "success" : null}>{data?.Data.status}</Chip>
+                                <Chip variant='flat' size='sm' color={data?.Data.status === "OPEN" ? "danger" : data?.Data.status === "PENDING" ? "warning" : data?.Data.status === "CLOSED" ? "success" : "danger"}>{data?.Data.status}</Chip>
                                 <div className='text-base'>{data ? formattedDate : null}
                                 </div>
                             </div>
@@ -99,7 +98,7 @@ export default function Page({ params }: { params: { issue: string } }) {
                                 <Select
                                     aria-label="drop down to update status"
                                     label="Update Status"
-                                    color={data?.Data.status === "OPEN" ? "danger" : data?.Data.status === "PENDING" ? "warning" : data?.Data.status === "CLOSED" ? "success" : null}
+                                    color={data?.Data.status === "OPEN" ? "danger" : data?.Data.status === "PENDING" ? "warning" : data?.Data.status === "CLOSED" ? "success" : "danger"}
                                     className="w-44"
                                     defaultSelectedKeys={[data?.Data.status]}
                                     onChange={handleSelectionChange}>

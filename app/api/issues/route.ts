@@ -28,7 +28,7 @@ const createIssueSchema = z.object({
     image: FileSchema.optional()
 })
 
-export const POST = async (req) => {
+export const POST = async (req:NextRequest) => {
     AWS.config.update({
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -40,9 +40,9 @@ export const POST = async (req) => {
 
     if (formData.get("image")) {
         const formdata = {
-            image: formData.get("image"),
-            title: formData.get("title"),
-            description: formData.get("description")
+            image: formData.get("image") as File,
+            title: formData.get("title") as string,
+            description: formData.get("description") as string
         }
 
         const validatedData = createIssueSchema.safeParse(formdata);
@@ -53,7 +53,7 @@ export const POST = async (req) => {
         const buffer = Buffer.from(await formdata.image.arrayBuffer());
 
         const params = {
-            Bucket: process.env.BUCKET_NAME,
+            Bucket: process.env.BUCKET_NAME as string,
             Key: `${randomUUID()}.png`,
             Body: buffer
         };
@@ -74,7 +74,7 @@ export const POST = async (req) => {
             return NextResponse.json(validatedData.error.format(), { status: 400 });
         }
         await prisma.issue.create({
-            data: { title: formdata.title, description: formdata.description, Image_URL: "No image given" }
+            data: { title: formdata.title as string, description: formdata.description as string, Image_URL: "No image given" }
         })
         return NextResponse.json("Form submitted", { status: 201 })
     }

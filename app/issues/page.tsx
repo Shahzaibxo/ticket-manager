@@ -1,5 +1,5 @@
 "use client"
-import { Table, SelectItem, Chip, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, NextUIProvider, Select } from "@nextui-org/react";
+import { Table, SelectItem, Chip, TableHeader, TableColumn, TableBody, TableRow, TableCell,  NextUIProvider, Select, Selection } from "@nextui-org/react";
 
 import { Pagination } from "@nextui-org/react";
 import { Button } from "@radix-ui/themes";
@@ -23,7 +23,7 @@ const options = [
 const Page = () => {
   const router = useRouter()
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [value, setValue] = React.useState(new Set(["asc"]));
+  const [value, setValue] = React.useState<Selection>(new Set(["asc"]));
   const descValue = Array.from(value)[0];
   console.log(descValue)
   const { data } = useSWR(`/api/AllData?page=${currentPage}&sort=${descValue}`, fetcher, { refreshInterval: 1000,
@@ -31,7 +31,7 @@ const Page = () => {
     revalidateOnFocus: false,
     revalidateOnReconnect: false
    })
-  let count: number
+  let count
   if (data) {
 
     count = Math.ceil(data.Total / 4)
@@ -62,7 +62,7 @@ const Page = () => {
     status: string;
     title: string;
   }
-  const renderCell = React.useCallback((user, columnKey) => {
+  const renderCell = React.useCallback((user:any, columnKey:any) => {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
@@ -74,22 +74,21 @@ const Page = () => {
         );
       case "status":
         return (
-          <Chip size="sm" color={user.status === "OPEN" ? "danger" : user.status === "PENDING" ? "warning" : user.status === "CLOSED" ? "success" : null} variant="flat">
+          <Chip size="sm" color={user.status === "OPEN" ? "danger" : user.status === "PENDING" ? "warning" : user.status === "CLOSED" ? "success" : "danger"} variant="flat">
             {user.status}
           </Chip>
         );
       case "time":
         const date = new Date(user.createdAt);
-        const options = {
+        
+        const currentDate = new Date();
+        const formatted = date.toLocaleDateString(undefined, {
           weekday: 'long',
           day: 'numeric',
           month: 'long',
           hour: 'numeric',
           minute: 'numeric'
-        };
-
-        const currentDate = new Date();
-        const formatted = date.toLocaleDateString(undefined, options);
+        });
         let formattedDate
 
         if (
@@ -141,15 +140,15 @@ const Page = () => {
           bottomContent=
           {<div className="flex items-center justify-center mt-5">
             <Pagination isCompact showControls page={currentPage}
-              onChange={setCurrentPage} total={count} />
+              onChange={setCurrentPage} total={count as number} />
           </div>}
         >
           <TableHeader columns={columns}>
             {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
           </TableHeader>
           <TableBody items={data?.PaginatedData}>
-            {(item) => (
-              <TableRow className="cursor-pointer" key={item.id}>
+            {(item:any) => (
+              <TableRow className="cursor-pointer" key={item.id as number}>
                 {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
               </TableRow>
             )}

@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/prisma/client";
-
+type SortOrder = 'asc' | 'desc'
 
 export async function GET(req: NextRequest) {
     const url = new URL(req.url)
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
         const Page = parseInt(page, 10)
         const data = await prisma.issue.findMany({
             orderBy:{
-                createdAt: sort
+                createdAt: sort as SortOrder
             },
             select:{
                 id:true,
