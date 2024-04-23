@@ -6,6 +6,7 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import axios from 'axios';
 import { UserAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [title, setTitle] = useState('');
@@ -14,6 +15,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const {user}= UserAuth()
+  const router=useRouter()
   if(!user){
     return(
       <div className="flex flex-col items-center justify-center h-screen">
@@ -43,6 +45,7 @@ const Page = () => {
     }
     finally {
       setIsLoading(false)
+      router.push("/issues")
     }
   };
   return (

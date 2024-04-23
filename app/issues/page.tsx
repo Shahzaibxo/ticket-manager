@@ -26,7 +26,11 @@ const Page = () => {
   const [value, setValue] = React.useState(new Set(["asc"]));
   const descValue = Array.from(value)[0];
   console.log(descValue)
-  const { data } = useSWR(`/api/AllData?page=${currentPage}&sort=${descValue}`, fetcher)
+  const { data } = useSWR(`/api/AllData?page=${currentPage}&sort=${descValue}`, fetcher, { refreshInterval: 1000,
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+   })
   let count: number
   if (data) {
 
@@ -126,11 +130,11 @@ const Page = () => {
         </Select>
         <Button className="inline" onClick={() => { router.push("/issues/new") }}>Create a New Ticket</Button>
       </div>
-      {data ? data?.PaginatedData == null ? 
-      <div className="text-base text-gray-600 font-semibold flex flex-col justify-center items-center">
+      {data ? (data?.PaginatedData == null ? 
+     ( <div className="text-base text-gray-600 font-semibold flex flex-col justify-center items-center">
         <img className="w-56 h-auto" src="/2.png" alt="no_image" />
         Create an Ticket to display here
-      </div> :
+      </div>) :
         <Table aria-label="Example table with dynamic content"
           onRowAction={(id) => router.push(`/issues/${id}`)}
           selectionMode="single"
@@ -150,7 +154,7 @@ const Page = () => {
               </TableRow>
             )}
           </TableBody>
-        </Table>
+        </Table>)
         :
         <div className="flex mt-6 items-center justify-center">
           <svg aria-hidden="true" className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none">
