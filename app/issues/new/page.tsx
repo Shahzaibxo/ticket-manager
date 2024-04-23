@@ -69,10 +69,10 @@ const Page = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)} />
           <h1 className="my-2 text-xl font-bold dark:text-white">Describe Your issue in detail</h1>
-          {/* <SimpleMDE placeholder='Description'
+          <SimpleMDE placeholder='Description'
             value={description}
             className="h-fit"
-            onChange={(description) => setDescription(description)} /> */}
+            onChange={(description) => setDescription(description)} />
         </div>
         <div className="w-fit">
           <h1 className="text-base font-bold dark:text-white">Attach an image - Optional</h1>
