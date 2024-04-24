@@ -85,11 +85,11 @@ export default function Home() {
             </div>
             <div className="border border-zinc-400">
               <Bar
-                className="sm:w-96"
+                className="w-96"
                 height={150}
                 options={options}
                 data={{
-                  labels: ["New Issues", "In-progress", "Resolved Issues"],
+                  labels: ["New", "In-progress", "Resolved"],
                   datasets: [
                     {
                       label: "Total",
