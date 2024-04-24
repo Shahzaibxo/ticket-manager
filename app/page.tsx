@@ -85,7 +85,7 @@ export default function Home() {
             </div>
             <div className="border border-zinc-400">
               <Bar
-                className="w-60 sm:w-96"
+                className="sm:w-96"
                 height={150}
                 options={options}
                 data={{
